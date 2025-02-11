@@ -5,8 +5,8 @@ import com.fulltrix.gcyl.api.recipes.properties.ComponentALProperty;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.RecipeMap;
-import gregtech.api.recipes.recipeproperties.ComputationProperty;
-import gregtech.api.recipes.recipeproperties.TotalComputationProperty;
+import gregtech.api.recipes.properties.impl.ComputationProperty;
+import gregtech.api.recipes.properties.impl.TotalComputationProperty;
 import gregtech.api.util.EnumValidationResult;
 import gregtech.api.util.GTLog;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -28,7 +28,7 @@ public class ComponentALRecipeBuilder extends RecipeBuilder<ComponentALRecipeBui
         return new ComponentALRecipeBuilder(this);
     }
 
-    public boolean applyProperty(@NotNull String key, Object value) {
+    public boolean applyPropertyCT(@NotNull String key, Object value) {
         if (key.equals(ComponentALProperty.KEY)) {
             this.CasingTier(((Number) value).intValue());
             return true;
@@ -42,7 +42,7 @@ public class ComponentALRecipeBuilder extends RecipeBuilder<ComponentALRecipeBui
             return true;
         }
 
-        return super.applyProperty(key, value);
+        return super.applyPropertyCT(key, value);
     }
 
     public ComponentALRecipeBuilder CasingTier(int tier) {
@@ -56,7 +56,7 @@ public class ComponentALRecipeBuilder extends RecipeBuilder<ComponentALRecipeBui
 
     public int getCasingTier() {
         return this.recipePropertyStorage == null ? 0 :
-                this.recipePropertyStorage.getRecipePropertyValue(ComponentALProperty.getInstance(), 0);
+                this.recipePropertyStorage.get(ComponentALProperty.getInstance(), 0);
     }
 
     @Override

@@ -875,6 +875,8 @@ public class SuperconductorsSMDChain {
                 .buildAndRegister();
 
         // 4B + 3C -> B4C3
+        //TODO Nuclear
+        /*
         BLAST_RECIPES.recipeBuilder().duration(550).EUt(120).blastFurnaceTemp(4000)
                 .input(dust, Boron, 4)
                 .input(dust, Carbon, 3)
@@ -887,6 +889,7 @@ public class SuperconductorsSMDChain {
                 .input(dust, BoronCarbide, 7)
                 .output(dust, BoronFranciumCarbide, 15)
                 .buildAndRegister();
+         */
 
         // At + H2SO4 -> [At + H2O + SO3]
         MIXER_RECIPES.recipeBuilder().duration(140).EUt(7680)

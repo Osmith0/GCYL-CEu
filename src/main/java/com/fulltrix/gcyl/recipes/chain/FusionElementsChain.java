@@ -6,6 +6,8 @@ import static com.fulltrix.gcyl.materials.GCYLMaterials.*;
 import static com.fulltrix.gcyl.materials.GCYLNuclearMaterials.*;
 import static com.fulltrix.gcyl.api.recipes.GCYLRecipeMaps.*;
 import static gregicality.multiblocks.api.unification.GCYMMaterials.*;
+import static supercritical.api.recipes.SCRecipeMaps.GAS_CENTRIFUGE_RECIPES;
+import static supercritical.api.unification.material.SCMaterials.Plutonium244;
 import static gregtech.api.recipes.RecipeMaps.*;
 import static gregtech.api.recipes.RecipeMaps.FUSION_RECIPES;
 import static gregtech.api.unification.material.Materials.*;
@@ -155,6 +157,8 @@ public class FusionElementsChain {
                 .fluidOutputs(Titanium50Tetrafluoride.getFluid(518))
                 .fluidOutputs(TitaniumTetrafluoride.getFluid(9482))
                 .buildAndRegister();
+
+
 
         BLAST_RECIPES.recipeBuilder().duration(340).EUt(120)
                 .blastFurnaceTemp(Titanium.getBlastTemperature())

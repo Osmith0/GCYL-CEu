@@ -16,6 +16,7 @@ import static com.fulltrix.gcyl.blocks.GCYLMultiblockCasing2.CasingType.*;
 import static com.fulltrix.gcyl.blocks.GCYLReactorCasing.CasingType.*;
 import static com.fulltrix.gcyl.materials.GCYLNuclearMaterials.ReactorSteel;
 import static gregicality.multiblocks.api.unification.GCYMMaterials.*;
+import static supercritical.api.unification.material.SCMaterials.Plutonium244;
 import static gregtech.api.GTValues.L;
 import static gregtech.api.recipes.GTRecipeHandler.removeRecipesByInputs;
 import static gregtech.api.recipes.ModHandler.removeRecipeByName;

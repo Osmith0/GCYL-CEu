@@ -5,31 +5,28 @@ import codechicken.lib.render.CCRenderState;
 import codechicken.lib.render.pipeline.IVertexOperation;
 import codechicken.lib.vec.Matrix4;
 import codechicken.lib.vec.Vector3;
-import gregtech.api.GTValues;
 import gregtech.api.capability.GregtechDataCodes;
 import gregtech.api.capability.IDataAccessHatch;
 import gregtech.api.capability.IEnergyContainer;
 import gregtech.api.capability.IMultipleTankHandler;
 import gregtech.api.capability.impl.EnergyContainerList;
-import gregtech.api.capability.impl.FluidTankList;
 import gregtech.api.capability.impl.MultiblockRecipeLogic;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
-import gregtech.api.metatileentity.multiblock.IMultiblockAbilityPart;
 import gregtech.api.metatileentity.multiblock.IMultiblockPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
-import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeBuilder;
-import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.ingredients.GTRecipeInput;
-import gregtech.api.recipes.recipeproperties.IRecipePropertyStorage;
-import gregtech.api.recipes.recipeproperties.ResearchProperty;
+import gregtech.api.recipes.logic.OCParams;
+import gregtech.api.recipes.logic.OCResult;
+import gregtech.api.recipes.properties.RecipePropertyStorage;
+import gregtech.api.recipes.properties.impl.ResearchProperty;
 import gregtech.api.util.*;
 import gregtech.client.particle.GTLaserBeamParticle;
 import gregtech.client.particle.GTParticleManager;
@@ -38,16 +35,11 @@ import gregtech.client.renderer.texture.Textures;
 import gregtech.client.utils.TooltipHelper;
 import gregtech.common.ConfigHolder;
 import gregtech.common.blocks.BlockGlassCasing;
-import gregtech.common.blocks.BlockMetalCasing;
 import gregtech.common.blocks.BlockMultiblockCasing;
 import gregtech.common.blocks.MetaBlocks;
 import gregtech.common.metatileentities.MetaTileEntities;
 import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMultiFluidHatch;
-import gregtech.common.metatileentities.multi.multiblockpart.MetaTileEntityMultiblockPart;
-import gregtech.common.metatileentities.multi.multiblockpart.appeng.MetaTileEntityMEStockingBus;
 import gregtech.core.sound.GTSoundEvents;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -61,22 +53,18 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidTank;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import static com.fulltrix.gcyl.api.GCYLUtility.gcylId;
 import static gregtech.api.capability.GregtechDataCodes.STRUCTURE_FORMED;
-import static gregtech.api.recipes.logic.OverclockingLogic.standardOverclockingLogic;
 import static gregtech.api.util.RelativeDirection.*;
 
 //TODO finish tooltip coloring
@@ -493,42 +481,49 @@ public class MetaTileEntityAdvancedAssline extends RecipeMapMultiblockController
         }
 
         @Override
-        protected int @NotNull [] runOverclockingLogic(@NotNull IRecipePropertyStorage propertyStorage, int recipeEUt,
-                                                       long maxVoltage, int duration, int maxOverclocks) {
+        protected void runOverclockingLogic(@NotNull OCParams params, @NotNull OCResult result,
+                                            @NotNull RecipePropertyStorage propertyStorage, long maxVoltage) {
 
-            double resultDuration = duration;
-            double resultVoltage = recipeEUt;
-            double voltageMultiplier = 4.3;
-            for (; maxOverclocks > 0; maxOverclocks--) {
-                // make sure that duration is not already as low as it can do
-                if (resultDuration == 1) break;
+            double duration = params.duration();
+            double eut = params.eut();
+            int ocAmount = params.ocAmount();
+            double parallel = 1;
+            int parallelIterAmount = 0;
+            boolean shouldParallel = false;
+            double voltageFactor = 4.3;
+            double durationFactor = getOverclockingDurationFactor();
 
-                // it is important to do voltage first,
-                // so overclocking voltage does not go above the limit before changing duration
+            while (ocAmount-- > 0) {
+                double potentialEUt = eut * voltageFactor;
+                if (potentialEUt > maxVoltage) {
+                    break;
+                }
+                eut = potentialEUt;
 
-                double potentialVoltage = resultVoltage * voltageMultiplier;
-                // do not allow voltage to go above maximum
-                if (potentialVoltage > maxVoltage) break;
+                if (shouldParallel) {
+                    parallel /= durationFactor;
+                    parallelIterAmount++;
+                } else {
+                    double potentialDuration = duration * durationFactor;
+                    if (potentialDuration < 1) {
+                        parallel /= durationFactor;
+                        parallelIterAmount++;
+                        shouldParallel = true;
+                    } else {
+                        duration = potentialDuration;
+                    }
+                }
 
-                double potentialDuration = resultDuration / 2.0;
-                // do not allow duration to go below one tick
-                if (potentialDuration < 1) potentialDuration = 1;
-                // update the duration for the next iteration
-                resultDuration = potentialDuration;
-
-                // update the voltage for the next iteration after everything else
-                // in case duration overclocking would waste energy
-                resultVoltage = potentialVoltage;
-
-                voltageMultiplier += 0.3;
+                voltageFactor += 0.3;
             }
 
-            return new int[] { (int) resultVoltage, (int) resultDuration };
+            result.init((long) (eut / Math.pow(voltageFactor, parallelIterAmount)), (int) duration, (int) parallel,
+                    (long) eut);
         }
 
         @Override
-        protected void modifyOverclockPre(@NotNull int[] values, @NotNull IRecipePropertyStorage storage) {
-            values[1] = (int) (values[1] * 1.2);
+        protected void modifyOverclockPre(@NotNull OCParams ocParams, @NotNull RecipePropertyStorage storage) {
+            ocParams.setDuration((int) (ocParams.duration() * 1.2));
         }
 
         @Override
@@ -579,16 +574,33 @@ public class MetaTileEntityAdvancedAssline extends RecipeMapMultiblockController
         }
 
         @Override
-        protected boolean setupAndConsumeRecipeInputs(@NotNull Recipe recipe,
-                                                      @NotNull IItemHandlerModifiable importInventory,
-                                                      @NotNull IMultipleTankHandler importFluids) {
-            this.overclockResults = calculateOverclock(recipe);
+        protected Recipe setupAndConsumeRecipeInputs(@NotNull Recipe recipe,
+                                                      @NotNull IItemHandlerModifiable importInventory) {
 
-            modifyOverclockPost(overclockResults, recipe.getRecipePropertyStorage());
+            IMultipleTankHandler importFluids = this.getInputTank();
 
-            if (!hasEnoughPower(overclockResults)) {
+            calculateOverclock(recipe);
+
+            Field field;
+            try {
+                field = this.getClass().getDeclaredField("ocResult");
+            } catch (NoSuchFieldException e) {
+                throw new RuntimeException(e);
+            }
+            field.setAccessible(true);
+
+            OCResult ocResult;
+            try {
+                ocResult = (OCResult) field.get(this);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+
+            modifyOverclockPost(ocResult, recipe.propertyStorage());
+
+            if (!hasEnoughPower(ocResult.eut(), ocResult.duration())) {
                 hangMachine();
-                return false;
+                return null;
             }
 
             IItemHandlerModifiable exportInventory = getOutputInventory();
@@ -599,14 +611,14 @@ public class MetaTileEntityAdvancedAssline extends RecipeMapMultiblockController
             if (!metaTileEntity.canVoidRecipeItemOutputs() &&
                     !GTTransferUtils.addItemsToItemHandler(exportInventory, true, recipe.getAllItemOutputs())) {
                 this.isOutputsFull = true;
-                return false;
+                return null;
             }
 
             // We have already trimmed fluid outputs at this time
             if (!metaTileEntity.canVoidRecipeFluidOutputs() &&
                     !GTTransferUtils.addFluidsToFluidHandler(exportFluids, true, recipe.getAllFluidOutputs())) {
                 this.isOutputsFull = true;
-                return false;
+                return null;
             }
 
             this.isOutputsFull = false;
@@ -616,21 +628,21 @@ public class MetaTileEntityAdvancedAssline extends RecipeMapMultiblockController
                 for(int i = 0; i < getParallelLimit(); i++) {
                     if(itemInputInventory.get(i).getStackInSlot(0).isEmpty()) {
                         setWorkingEnabled(false);
-                        return false;
+                        return null;
                     }
                 }
 
 
                 if (recipe.matches(true, importInventory, importFluids)) {
                     this.metaTileEntity.addNotifiedInput(importInventory);
-                    return true;
+                    return recipe;
                 } else {
                     hangMachine();
-                    return false;
+                    return null;
                 }
 
             }
-            return false;
+            return null;
         }
     }
 }

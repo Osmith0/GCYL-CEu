@@ -1,7 +1,11 @@
 package com.fulltrix.gcyl.materials;
 
 import com.fulltrix.gcyl.GCYLConfig;
+import supercritical.SCValues;
+import supercritical.api.unification.material.properties.CoolantProperty;
+import supercritical.api.unification.material.properties.SCPropertyKey;
 import gregtech.api.GTValues;
+import gregtech.api.GregTechAPI;
 import gregtech.api.fluids.FluidBuilder;
 import gregtech.api.fluids.store.FluidStorageKeys;
 import gregtech.api.unification.OreDictUnifier;
@@ -13,6 +17,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -20,6 +25,8 @@ import static com.fulltrix.gcyl.api.recipes.GCYLMaterialFlags.NO_MIXER_RECIPE;
 import static com.fulltrix.gcyl.materials.GCYLMaterials.*;
 import static gregicality.multiblocks.api.unification.GCYMMaterialFlags.NO_ALLOY_BLAST_RECIPES;
 import static gregicality.multiblocks.api.unification.GCYMMaterials.*;
+import static supercritical.api.unification.material.SCMaterials.Inconel;
+import static supercritical.api.unification.material.SCMaterials.Zircaloy;
 import static gregtech.api.GTValues.OpV;
 import static gregtech.api.GTValues.UV;
 import static gregtech.api.unification.material.Materials.*;
@@ -27,6 +34,8 @@ import static gregtech.api.unification.material.info.MaterialFlags.*;
 import static gregtech.api.unification.material.info.MaterialIconSet.ROUGH;
 import static gregtech.api.unification.ore.OrePrefix.plate;
 import static gregtech.integration.crafttweaker.material.MaterialPropertyExpansion.*;
+import static kono.ceu.materialreplication.api.unification.materials.flags.MRMaterialFlags.DISABLE_DECONSTRUCTION;
+import static kono.ceu.materialreplication.api.unification.materials.flags.MRMaterialFlags.DISABLE_REPLICATION;
 
 public class GCYLMaterialOverride {
 
@@ -38,44 +47,43 @@ public class GCYLMaterialOverride {
 
     private static void coolants() {
 
-        CarbonDioxide.setProperty(PropertyKey.COOLANT,
+        CarbonDioxide.setProperty(SCPropertyKey.COOLANT,
                 new CoolantProperty(CarbonDioxide, SupercriticalCO2, FluidStorageKeys.LIQUID,13.,28,195,380000,846));
 
-        Helium3.setProperty(PropertyKey.COOLANT,
+        Helium3.setProperty(SCPropertyKey.COOLANT,
                 new CoolantProperty(Helium3, HotHPHelium3,FluidStorageKeys.LIQUID, 0.,262,3,8600,5193));
 
-        Helium4.setProperty(PropertyKey.COOLANT,
+        Helium4.setProperty(SCPropertyKey.COOLANT,
                 new CoolantProperty(Helium4, HotHPHelium4,FluidStorageKeys.LIQUID, 0., 252, 4, 20700, 5193));
 
-        FLiBe.setProperty(PropertyKey.COOLANT,
+        FLiBe.setProperty(SCPropertyKey.COOLANT,
                 new CoolantProperty(FLiBe, SupercriticalFLiBe,FluidStorageKeys.LIQUID,0.001,1830,1703,3330000,2386));
 
-        FLiNaK.setProperty(PropertyKey.COOLANT,
+        FLiNaK.setProperty(SCPropertyKey.COOLANT,
                 new CoolantProperty(FLiNaK, SupercriticalFLiNaK,FluidStorageKeys.LIQUID,0., 1290,1844,9520000,1854));
 
-        SodiumPotassiumAlloy.setProperty(PropertyKey.COOLANT,
+        SodiumPotassiumAlloy.setProperty(SCPropertyKey.COOLANT,
                 new CoolantProperty(SodiumPotassiumAlloy, SupercriticalSodiumPotassiumAlloy,FluidStorageKeys.LIQUID,0.001,400,1059, 2500000, 1191));
 
 
-        Sodium.setProperty(PropertyKey.COOLANT,
+        Sodium.setProperty(SCPropertyKey.COOLANT,
                 new CoolantProperty(Sodium, HotLiquidSodium,FluidStorageKeys.LIQUID, 0.05, 120100,1156,4250000,1230));
 
-        Mercury.setProperty(PropertyKey.COOLANT,
+        Mercury.setProperty(SCPropertyKey.COOLANT,
                 new CoolantProperty(Mercury, HotMercury,FluidStorageKeys.LIQUID, 0., 13800,630,295000,140));
 
-        Tin.setProperty(PropertyKey.COOLANT,
+        Tin.setProperty(SCPropertyKey.COOLANT,
                 new CoolantProperty(Tin, HotLiquidTin, FluidStorageKeys.LIQUID,0.01, 54000, 2875, 2440000,217));
 
-        Lead.setProperty(PropertyKey.COOLANT,
+        Lead.setProperty(SCPropertyKey.COOLANT,
                 new CoolantProperty(Lead, HotLiquidLead,FluidStorageKeys.LIQUID,0.06,55000, 2022,866000,139));
 
-        LeadBismuthEutectic.setProperty(PropertyKey.COOLANT,
+        LeadBismuthEutectic.setProperty(SCPropertyKey.COOLANT,
                 new CoolantProperty(LeadBismuthEutectic, SupercriticalLeadBismuthEutectic,FluidStorageKeys.LIQUID, 0.01,10800,1944,852000,147));
 
-        BoricAcid.setProperty(PropertyKey.COOLANT,
+        BoricAcid.setProperty(SCPropertyKey.COOLANT,
                 new CoolantProperty(BoricAcid, HotLiquidBoronTrioxide,FluidStorageKeys.LIQUID,0.,370,573,8100000,1392)
                         .setAccumulatesHydrogen(true));
-
 
     }
 
@@ -189,6 +197,9 @@ public class GCYLMaterialOverride {
                 Sulfur, Calcium, Curium, Bohrium, Seaborgium, Copernicium, Rutherfordium,Meitnerium, Tennessine, Livermorium, Moscovium, Nihonium,
                 Roentgenium, Astatine, Hafnium, RutheniumTetroxide, Lawrencium, Nobelium, Germanium, NeodymiumMagnetic, SamariumMagnetic, Lafium,
                 PlatinumGroupSludge, Plutonium);
+
+        //TODO NUCLEAR
+        Collections.addAll(fmats, Uranium238);
 
         for (Material mat : fmats) {
             mat.setProperty(PropertyKey.FLUID, new FluidProperty(FluidStorageKeys.LIQUID, new FluidBuilder()));
@@ -497,9 +508,9 @@ public class GCYLMaterialOverride {
 
         //no mixer recipe
         List<Material> mixermats = new ArrayList<>();
-        Collections.addAll(mixermats, HSSS, Osmiridium, WatertightSteel, MaragingSteel300, Stellite100, HastelloyC276, HastelloyX, Trinaquadalloy, Zeron100, TitaniumCarbide, TantalumCarbide, HSLASteel, BlackSteel, Zircaloy, BlackBronze,
-                Inconel, SterlingSilver, NaquadahAlloy, LVSuperconductorBase, MVSuperconductorBase, HVSuperconductorBase,EVSuperconductorBase,IVSuperconductorBase,LuVSuperconductorBase,ZPMSuperconductorBase,UVSuperconductorBase,UHVSuperconductorBase,
-                UEVSuperconductorBase,UIVSuperconductorBase,UXVSuperconductorBase,OpVSuperconductorBase);
+        Collections.addAll(mixermats, HSSS, Osmiridium, WatertightSteel, MaragingSteel300, Stellite100, HastelloyC276, HastelloyX, Trinaquadalloy, Zeron100, TitaniumCarbide, TantalumCarbide, HSLASteel, BlackSteel, BlackBronze,
+                SterlingSilver, NaquadahAlloy, LVSuperconductorBase, MVSuperconductorBase, HVSuperconductorBase,EVSuperconductorBase,IVSuperconductorBase,LuVSuperconductorBase,ZPMSuperconductorBase,UVSuperconductorBase,UHVSuperconductorBase,
+                UEVSuperconductorBase,UIVSuperconductorBase,UXVSuperconductorBase,OpVSuperconductorBase, Zircaloy, Inconel);
         for(Material mat: mixermats) {
             mat.addFlags(NO_MIXER_RECIPE);
         }
@@ -556,7 +567,14 @@ public class GCYLMaterialOverride {
         wireProp.setAmperage(4);
         wireProp.setLossPerBlock(4);
 
+        /*
+        Collection<Material> SCMaterials = GregTechAPI.materialManager.getRegistry(SCValues.MODID).getAllMaterials();
 
+        SCMaterials.forEach(m -> {
+            m.addFlags(DISABLE_REPLICATION, DISABLE_DECONSTRUCTION);
+        });
+
+         */
 
     }
 }

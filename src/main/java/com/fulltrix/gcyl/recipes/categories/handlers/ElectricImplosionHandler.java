@@ -4,6 +4,7 @@ import com.fulltrix.gcyl.api.recipes.GCYLRecipeMaps;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMaps;
 import gregtech.api.recipes.ingredients.GTRecipeInput;
+import gregtech.api.recipes.properties.impl.ImplosionExplosiveProperty;
 import gregtech.api.util.ItemStackHashStrategy;
 import it.unimi.dsi.fastutil.Hash;
 import it.unimi.dsi.fastutil.objects.ObjectOpenCustomHashSet;
@@ -51,7 +52,7 @@ public class ElectricImplosionHandler {
         RecipeMaps.IMPLOSION_RECIPES.getRecipeList().forEach(recipe -> {
 
             // Get the explosive type used in this recipe
-            ItemStack explosive = (ItemStack) recipe.getRecipePropertyStorage().getRawRecipePropertyValue(PROPERTY);
+            ItemStack explosive = (ItemStack) recipe.propertyStorage().get(ImplosionExplosiveProperty.getInstance(), ItemStack.EMPTY);
 
             // Get the input list, converting from CountableIngredient to ItemStack
             AtomicInteger stackCount = new AtomicInteger();

@@ -286,7 +286,7 @@ public class CoverEnderItemLink extends CoverBase implements CoverWithUI, ITicka
         return true;
     }
     @Override
-    public ModularPanel buildUI(SidedPosGuiData guiData, GuiSyncManager guiSyncManager) {
+    public ModularPanel buildUI(SidedPosGuiData guiData, PanelSyncManager guiSyncManager) {
         var panel = GTGuis.createPanel(this, 176, 208);
 
         getItemFilterContainer().setMaxTransferSize(1);
@@ -297,7 +297,7 @@ public class CoverEnderItemLink extends CoverBase implements CoverWithUI, ITicka
 
     }
 
-    protected Column createWidgets(ModularPanel panel, GuiSyncManager syncManager) {
+    protected Column createWidgets(ModularPanel panel, PanelSyncManager syncManager) {
         var isPrivate = new BooleanSyncValue(this::isPrivate, this::setPrivate);
         isPrivate.updateCacheFromSource(true);
 
@@ -324,7 +324,7 @@ public class CoverEnderItemLink extends CoverBase implements CoverWithUI, ITicka
             widgets.get(0).addAll(itemSlots);
 
 
-        return new Column().coverChildrenHeight().top(24)
+        return (Column) new Column().coverChildrenHeight().top(24)
                 .margin(7, 0).widthRel(1f)
                 .child(new Row().marginBottom(2)
                         .coverChildrenHeight()
@@ -372,7 +372,8 @@ public class CoverEnderItemLink extends CoverBase implements CoverWithUI, ITicka
                                         .color(Color.WHITE.darker(1)))
                                 .widthRel(0.6f)
                                 .left(0)))
-                .child(getItemFilterContainer().initUI(panel, syncManager))
+                // TODO UI AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH
+                // .child(getItemFilterContainer().initUI(panel, syncManager))
                 .child(new EnumRowBuilder<>(CoverConveyor.ConveyorMode.class)
                         .value(conveyorMode)
                         .overlay(GTGuiTextures.CONVEYOR_MODE_OVERLAY)

@@ -31,8 +31,9 @@ import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.RecipeMaps;
-import gregtech.api.recipes.recipeproperties.FusionEUToStartProperty;
-import gregtech.api.recipes.recipeproperties.IRecipePropertyStorage;
+import gregtech.api.recipes.logic.OCParams;
+import gregtech.api.recipes.properties.RecipePropertyStorage;
+import gregtech.api.recipes.properties.impl.FusionEUToStartProperty;
 import gregtech.api.util.RelativeDirection;
 import gregtech.api.util.TextComponentUtil;
 import gregtech.api.util.TextFormattingUtil;
@@ -765,10 +766,10 @@ public class MetaTileEntityAdvFusionReactor extends GCYLRecipeMapMultiblockContr
         }
 
         @Override
-        protected double getOverclockingDurationDivisor() {return 2.0;}
+        protected double getOverclockingDurationFactor() {return 2.0;}
 
         @Override
-        protected double getOverclockingVoltageMultiplier() {
+        protected double getOverclockingVoltageFactor() {
             return 2.0D;
         }
 
@@ -808,28 +809,32 @@ public class MetaTileEntityAdvFusionReactor extends GCYLRecipeMapMultiblockContr
         }
 
         @Override
-        protected void modifyOverclockPre(int @NotNull [] values, @NotNull IRecipePropertyStorage storage) {
-            super.modifyOverclockPre(values, storage);
+        protected void modifyOverclockPre(@NotNull OCParams ocParams, @NotNull RecipePropertyStorage storage) {
+            super.modifyOverclockPre(ocParams, storage);
 
             // Limit the number of OCs to the difference in fusion reactor MK.
             // I.e., a MK2 reactor can overclock a MK1 recipe once, and a
             // MK3 reactor can overclock a MK2 recipe once, or a MK1 recipe twice.
-            long euToStart = storage.getRecipePropertyValue(FusionEUToStartProperty.getInstance(), 0L);
+            long euToStart = storage.get(FusionEUToStartProperty.getInstance(), 0L);
             int fusionTier = FusionEUToStartProperty.getFusionTier(euToStart);
-            int coilTier = storage.getRecipePropertyValue(AdvFusionCoilProperty.getInstance(), 0);
-            double euReturn = storage.getRecipePropertyValue(AdvFusionEUReturnProperty.getInstance(), 0);
+            int coilTier = storage.get(AdvFusionCoilProperty.getInstance(), 0);
+            double euReturn = storage.get(AdvFusionEUReturnProperty.getInstance(), 0);
+            long EUt = ocParams.eut();
 
             if(coilTier != 0) {
                 if (fusionTier != 0) fusionTier = MetaTileEntityAdvFusionReactor.this.tier - fusionTier;
                 coilTier = MetaTileEntityAdvFusionReactor.this.coilTier - coilTier;
 
-                values[0] = (int) (values[0] - (values[0] * (euReturn / 100.0)));
-                values[2] = Math.min(fusionTier + coilTier, values[2]);
+                ocParams.setOcAmount(ocParams.ocAmount());
+
+                ocParams.setEut((long) (EUt - (EUt * (euReturn / 100.0))));
+                ocParams.setOcAmount(Math.min(fusionTier + coilTier, ocParams.ocAmount()));
             }
             else {
                 if (fusionTier != 0) fusionTier = MetaTileEntityAdvFusionReactor.this.tier - fusionTier;
-                values[0] = (int) (values[0] - (values[0] * (euReturn / 100.0)));
-                values[2] = Math.min(fusionTier * 2, values[2]);
+
+                ocParams.setEut((long) (EUt - (EUt * (euReturn / 100.0))));
+                ocParams.setOcAmount(Math.min(fusionTier * 2, ocParams.ocAmount()));
             }
 
         }

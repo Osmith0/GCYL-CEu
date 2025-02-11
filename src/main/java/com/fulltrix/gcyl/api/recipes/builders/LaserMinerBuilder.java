@@ -4,8 +4,8 @@ import com.fulltrix.gcyl.api.recipes.properties.AdvFusionCoilProperty;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.RecipeMap;
-import gregtech.api.recipes.recipeproperties.ComputationProperty;
-import gregtech.api.recipes.recipeproperties.TotalComputationProperty;
+import gregtech.api.recipes.properties.impl.ComputationProperty;
+import gregtech.api.recipes.properties.impl.TotalComputationProperty;
 import gregtech.api.util.EnumValidationResult;
 import gregtech.api.util.GTLog;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ public class LaserMinerBuilder extends RecipeBuilder<LaserMinerBuilder> {
 
 
     @Override
-    public boolean applyProperty(@NotNull String key, Object value) {
+    public boolean applyPropertyCT(@NotNull String key, Object value) {
         if (key.equals(ComputationProperty.KEY)) {
             this.CWUt(((Number) value).intValue());
             return true;
@@ -39,12 +39,12 @@ public class LaserMinerBuilder extends RecipeBuilder<LaserMinerBuilder> {
         if (key.equals(AdvFusionCoilProperty.KEY)) {
             this.AdvCoilTier(((Number) value).intValue());
         }
-        return super.applyProperty(key, value);
+        return super.applyPropertyCT(key, value);
     }
 
     public int getAdvCoilTier() {
         return this.recipePropertyStorage == null ? 0 :
-                this.recipePropertyStorage.getRecipePropertyValue(AdvFusionCoilProperty.getInstance(), 0);
+                this.recipePropertyStorage.get(AdvFusionCoilProperty.getInstance(), 0);
     }
 
     public LaserMinerBuilder AdvCoilTier(int tier) {

@@ -358,6 +358,9 @@ public class RecipeOverride {
         //air centrifuge
         removeRecipesByInputs(CENTRIFUGE_RECIPES, Air.getFluid(10000));
 
+        //tungstic acid
+        removeRecipesByInputs(ELECTROLYZER_RECIPES, OreDictUnifier.get(dust, TungsticAcid, 7));
+
     }
 
     public static void chemistryOverride() {

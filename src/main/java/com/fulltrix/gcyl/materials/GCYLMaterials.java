@@ -27,6 +27,7 @@ import static com.fulltrix.gcyl.api.GCYLUtility.gcylId;
 import static com.fulltrix.gcyl.materials.GCYLNuclearMaterials.*;
 import static gregicality.multiblocks.api.unification.GCYMMaterialFlags.NO_ALLOY_BLAST_RECIPES;
 import static gregicality.multiblocks.api.unification.GCYMMaterials.*;
+import static supercritical.api.unification.material.SCMaterials.BoronTrioxide;
 import static gregtech.api.GTValues.*;
 import static gregtech.api.fluids.attribute.FluidAttributes.ACID;
 import static gregtech.api.unification.Elements.*;
@@ -6450,7 +6451,7 @@ public class GCYLMaterials {
         CalciumTungstate = new Material.Builder(++id, gcylId("calcium_tungstate"))
                 .dust()
                 .color(0x6e6867)
-                .flags(DISABLE_REPLICATION)
+                .flags(DISABLE_REPLICATION, DISABLE_DECOMPOSITION)
                 .iconSet(SHINY)
                 .components(Tungsten, 1, Calcium, 1)
                 .build();

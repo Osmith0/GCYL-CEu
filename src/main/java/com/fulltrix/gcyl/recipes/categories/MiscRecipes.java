@@ -20,6 +20,7 @@ import static com.fulltrix.gcyl.materials.GCYLMaterials.*;
 import static com.fulltrix.gcyl.materials.GCYLNuclearMaterials.*;
 import static com.fulltrix.gcyl.api.recipes.GCYLRecipeMaps.DECAY_CHAMBERS_RECIPES;
 import static gregicality.multiblocks.api.recipes.GCYMRecipeMaps.ALLOY_BLAST_RECIPES;
+import static supercritical.api.unification.material.SCMaterials.Plutonium244;
 import static gregtech.api.GTValues.*;
 import static gregtech.api.recipes.RecipeMaps.*;
 import static gregtech.api.unification.material.Materials.*;
@@ -316,6 +317,7 @@ highTierVoltageCoils();
                 .chancedOutput(dust, Plutonium244, 2000, 300)
                 .chancedOutput(dustTiny, Uranium238, 3000, 450)
                 .buildAndRegister();
+
 
         //NUCLEAR STAR
         AUTOCLAVE_RECIPES.recipeBuilder().EUt(GTValues.VA[GTValues.UIV]).duration(600)

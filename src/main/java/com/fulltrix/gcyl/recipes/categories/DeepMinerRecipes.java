@@ -26,6 +26,7 @@ import static com.fulltrix.gcyl.item.GCYLCoreItems.ELECTRIC_PISTON_MAX;
 import static com.fulltrix.gcyl.materials.GCYLMaterials.*;
 import static com.fulltrix.gcyl.item.GCYLCoreItems.TOOL_DATA_DEEP_MINER;
 import static com.fulltrix.gcyl.api.recipes.GCYLRecipeMaps.DEEP_MINER_RECIPES;
+import static supercritical.api.unification.material.SCMaterials.Plutonium244;
 import static gregtech.api.recipes.RecipeMaps.*;
 import static gregtech.api.unification.material.Materials.*;
 import static gregtech.api.unification.ore.OrePrefix.*;

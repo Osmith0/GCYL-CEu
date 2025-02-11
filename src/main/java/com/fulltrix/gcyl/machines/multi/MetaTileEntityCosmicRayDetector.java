@@ -16,7 +16,8 @@ import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.recipes.Recipe;
-import gregtech.api.recipes.recipeproperties.IRecipePropertyStorage;
+import gregtech.api.recipes.logic.OCParams;
+import gregtech.api.recipes.properties.RecipePropertyStorage;
 import gregtech.client.renderer.ICubeRenderer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
@@ -170,12 +171,10 @@ public class MetaTileEntityCosmicRayDetector extends GCYLRecipeMapMultiblockCont
         }
 
         @Override
-        protected void modifyOverclockPre(int @NotNull [] values, @NotNull IRecipePropertyStorage storage) {
-            super.modifyOverclockPre(values, storage);
+        protected void modifyOverclockPre(@NotNull OCParams ocParams, @NotNull RecipePropertyStorage storage) {
+            super.modifyOverclockPre(ocParams, storage);
 
-            int duration = Math.max(1,values[1] - getMetaTileEntity().getPos().getY());
-
-            values[1] = duration;
+            ocParams.setDuration(Math.max(1,ocParams.duration() - getMetaTileEntity().getPos().getY()));
         }
     }
 }

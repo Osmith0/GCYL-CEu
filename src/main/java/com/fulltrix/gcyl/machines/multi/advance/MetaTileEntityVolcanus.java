@@ -24,10 +24,12 @@ import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.RecipeMaps;
+import gregtech.api.recipes.logic.OCParams;
+import gregtech.api.recipes.logic.OCResult;
 import gregtech.api.recipes.logic.OverclockingLogic;
 import gregtech.api.recipes.machines.RecipeMapFurnace;
-import gregtech.api.recipes.recipeproperties.IRecipePropertyStorage;
-import gregtech.api.recipes.recipeproperties.TemperatureProperty;
+import gregtech.api.recipes.properties.RecipePropertyStorage;
+import gregtech.api.recipes.properties.impl.TemperatureProperty;
 import gregtech.api.util.GTUtility;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.cube.OrientedOverlayRenderer;
@@ -51,10 +53,8 @@ import java.util.List;
 
 import static com.fulltrix.gcyl.client.ClientHandler.HASTELLOY_N_CASING;
 import static com.fulltrix.gcyl.blocks.GCYLMetaBlocks.METAL_CASING_1;
-import static gregtech.api.GTValues.ZPM;
-import static gregtech.api.recipes.logic.OverclockingLogic.heatingCoilOverclockingLogic;
-import static gregtech.common.metatileentities.multi.electric.MetaTileEntityMultiSmelter.getDurationForParallel;
-import static gregtech.common.metatileentities.multi.electric.MetaTileEntityMultiSmelter.getEUtForParallel;
+
+import static gregtech.api.recipes.logic.OverclockingLogic.heatingCoilOC;
 
 //TODO: update ui & tooltip. improve performance
 
@@ -238,33 +238,27 @@ public class MetaTileEntityVolcanus extends RecipeMapMultiblockController implem
 
         @Override
         public void applyParallelBonus(@NotNull RecipeBuilder<?> builder) {
-            int EUt = (int) (builder.getEUt() * 0.9);
+            long EUt = (long) (builder.getEUt() * 0.9);
 
             builder.EUt(EUt / builder.getParallel())
                     .duration((int) (builder.getDuration() * (1.0F / 2.2F)));
         }
 
         @Override
-        protected void modifyOverclockPre(@NotNull int[] values, @NotNull IRecipePropertyStorage storage) {
-            super.modifyOverclockPre(values, storage);
+        protected void modifyOverclockPre(@NotNull OCParams ocParams, @NotNull RecipePropertyStorage storage) {
+            super.modifyOverclockPre(ocParams, storage);
 
-            values[0] = OverclockingLogic.applyCoilEUtDiscount(values[0],
+            ocParams.setEut(OverclockingLogic.applyCoilEUtDiscount(ocParams.eut(),
                     ((IHeatingCoil) volcanus).getCurrentTemperature(),
-                    storage.getRecipePropertyValue(TemperatureProperty.getInstance(), 0));
+                    storage.get(TemperatureProperty.getInstance(), 0)));
 
         }
 
         @Override
-        protected int @NotNull [] runOverclockingLogic(@NotNull IRecipePropertyStorage propertyStorage, int recipeEUt,
-                                                       long maxVoltage, int duration, int maxOverclocks) {
-
-
-            return  heatingCoilOverclockingLogic(Math.abs(recipeEUt),
-                    maxVoltage,
-                    duration,
-                    maxOverclocks,
-                    ((IHeatingCoil) metaTileEntity).getCurrentTemperature(),
-                    propertyStorage.getRecipePropertyValue(TemperatureProperty.getInstance(), 0));
+        protected void runOverclockingLogic(@NotNull OCParams ocParams, @NotNull OCResult ocResult,
+                                            @NotNull RecipePropertyStorage propertyStorage, long maxVoltage) {
+            heatingCoilOC(ocParams, ocResult, maxVoltage, ((IHeatingCoil) volcanus).getCurrentTemperature(),
+                    propertyStorage.get(TemperatureProperty.getInstance(), 0));
         }
     }
 }

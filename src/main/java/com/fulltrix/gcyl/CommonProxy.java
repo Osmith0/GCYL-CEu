@@ -27,7 +27,7 @@ import gregtech.api.block.VariantItemBlock;
 import gregtech.api.event.HighTierEvent;
 import gregtech.api.metatileentity.registry.MTEManager;
 import gregtech.api.recipes.GTRecipeInputCache;
-import gregtech.api.recipes.recipeproperties.FusionEUToStartProperty;
+import gregtech.api.recipes.properties.impl.FusionEUToStartProperty;
 import gregtech.api.unification.material.event.MaterialEvent;
 import gregtech.api.unification.material.event.MaterialRegistryEvent;
 import gregtech.api.unification.material.event.PostMaterialEvent;

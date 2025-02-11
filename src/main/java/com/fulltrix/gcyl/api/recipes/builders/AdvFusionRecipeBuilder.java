@@ -5,7 +5,7 @@ import com.fulltrix.gcyl.api.recipes.properties.AdvFusionEUReturnProperty;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeBuilder;
 import gregtech.api.recipes.RecipeMap;
-import gregtech.api.recipes.recipeproperties.FusionEUToStartProperty;
+import gregtech.api.recipes.properties.impl.FusionEUToStartProperty;
 import gregtech.api.util.EnumValidationResult;
 import gregtech.api.util.GTLog;
 import net.minecraftforge.fluids.Fluid;
@@ -49,7 +49,8 @@ public class AdvFusionRecipeBuilder extends RecipeBuilder<AdvFusionRecipeBuilder
         return new AdvFusionRecipeBuilder(this);
     }
 
-    public boolean applyProperty(@NotNull String key, Object value) {
+    //TODO change from CT?
+    public boolean applyPropertyCT(@NotNull String key, Object value) {
         if (key.equals(FusionEUToStartProperty.KEY)) {
             this.EUToStart(((Number) value).longValue());
             return true;
@@ -58,7 +59,7 @@ public class AdvFusionRecipeBuilder extends RecipeBuilder<AdvFusionRecipeBuilder
         if (key.equals(AdvFusionCoilProperty.KEY)) {
             this.AdvCoilTier(((Number) value).intValue());
         }
-        return super.applyProperty(key, value);
+        return super.applyPropertyCT(key, value);
     }
 
     public AdvFusionRecipeBuilder EUToStart(long EUToStart) {
@@ -91,17 +92,17 @@ public class AdvFusionRecipeBuilder extends RecipeBuilder<AdvFusionRecipeBuilder
 
     public long getEUToStart() {
         return this.recipePropertyStorage == null ? 0L :
-                this.recipePropertyStorage.getRecipePropertyValue(FusionEUToStartProperty.getInstance(), 0L);
+                this.recipePropertyStorage.get(FusionEUToStartProperty.getInstance(), 0L);
     }
 
     public int getAdvCoilTier() {
         return this.recipePropertyStorage == null ? 0 :
-                this.recipePropertyStorage.getRecipePropertyValue(AdvFusionCoilProperty.getInstance(), 0);
+                this.recipePropertyStorage.get(AdvFusionCoilProperty.getInstance(), 0);
     }
 
     public int getEUReturn() {
         return this.recipePropertyStorage == null ? 0 :
-                this.recipePropertyStorage.getRecipePropertyValue(AdvFusionEUReturnProperty.getInstance(), 0);
+                this.recipePropertyStorage.get(AdvFusionEUReturnProperty.getInstance(), 0);
     }
 
     @Override

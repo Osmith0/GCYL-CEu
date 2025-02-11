@@ -1,10 +1,13 @@
 package com.fulltrix.gcyl.api.recipes.properties;
 
-import gregtech.api.recipes.recipeproperties.RecipeProperty;
+import gregtech.api.recipes.properties.RecipeProperty;
 import gregtech.api.util.TextFormattingUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagInt;
 import org.apache.commons.lang3.Validate;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -39,6 +42,16 @@ public class ComponentALProperty extends RecipeProperty<Integer> {
     public static void registerCasingTier(int tier, String shortName) {
         Validate.notNull(shortName);
         registeredCasingTiers.put(tier, shortName);
+    }
+
+    @Override
+    public @NotNull NBTBase serialize(@NotNull Object o) {
+        return new NBTTagInt(castValue(o));
+    }
+
+    @Override
+    public @NotNull Object deserialize(@NotNull NBTBase nbtBase) {
+        return ((NBTTagInt) nbtBase).getInt();
     }
 
     @Override

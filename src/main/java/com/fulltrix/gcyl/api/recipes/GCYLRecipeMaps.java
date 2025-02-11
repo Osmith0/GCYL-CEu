@@ -19,6 +19,7 @@ import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import gregtech.core.sound.GTSoundEvents;
 import net.minecraft.init.SoundEvents;
 
+import static supercritical.api.recipes.SCRecipeMaps.GAS_CENTRIFUGE_RECIPES;
 import static gregtech.api.recipes.RecipeMaps.*;
 
 public final class GCYLRecipeMaps {

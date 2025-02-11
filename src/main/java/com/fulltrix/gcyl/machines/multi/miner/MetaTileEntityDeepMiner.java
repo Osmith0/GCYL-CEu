@@ -20,7 +20,8 @@ import gregtech.api.pattern.PatternMatchContext;
 import gregtech.api.pattern.TraceabilityPredicate;
 import gregtech.api.recipes.Recipe;
 import gregtech.api.recipes.RecipeMap;
-import gregtech.api.recipes.recipeproperties.IRecipePropertyStorage;
+import gregtech.api.recipes.logic.OCParams;
+import gregtech.api.recipes.properties.RecipePropertyStorage;
 import gregtech.api.unification.material.Materials;
 import gregtech.api.util.GTUtility;
 import gregtech.client.renderer.ICubeRenderer;
@@ -362,15 +363,13 @@ public class MetaTileEntityDeepMiner extends GCYLRecipeMapMultiblockController i
         }
 
         @Override
-        protected void modifyOverclockPre(int @NotNull [] values, @NotNull IRecipePropertyStorage storage) {
-            super.modifyOverclockPre(values, storage);
+        protected void modifyOverclockPre(@NotNull OCParams ocParams, @NotNull RecipePropertyStorage storage) {
+            super.modifyOverclockPre(ocParams, storage);
 
-            int recipeTemperature = storage.getRecipePropertyValue(GCYLTemperatureProperty.getInstance(),0);
+            int recipeTemperature = storage.get(GCYLTemperatureProperty.getInstance(),0);
             int temperatureDiff = deepMiner.getCurrentTemperature() - recipeTemperature;
             double durationModifier = temperatureDiff / 1000 < 1 ? 1 : TEMPERATURE_DURATION_MULTIPLIER * (temperatureDiff / 1000);
-            int recipeDuration = (int) (values[1] / durationModifier);
-
-            values[1] = recipeDuration;
+            ocParams.setDuration((int) (ocParams.duration() / durationModifier));
         }
     }
 }

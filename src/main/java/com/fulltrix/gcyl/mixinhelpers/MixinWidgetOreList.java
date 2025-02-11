@@ -5,12 +5,12 @@ import com.google.common.collect.HashBiMap;
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.IRenderContext;
 import gregtech.api.gui.Widget;
+import gregtech.api.gui.resources.ColorRectTexture;
 import gregtech.api.gui.widgets.*;
-import gregtech.api.terminal.gui.widgets.DraggableScrollableWidgetGroup;
-import gregtech.api.terminal.os.TerminalTheme;
 import gregtech.api.unification.OreDictUnifier;
 import gregtech.api.unification.stack.MaterialStack;
 import gregtech.api.util.Position;
+import gregtech.common.gui.widget.terminal.gui.widgets.DraggableScrollableWidgetGroup;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -20,7 +20,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.items.ItemStackHandler;
 
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -39,7 +41,7 @@ public class MixinWidgetOreList extends DraggableScrollableWidgetGroup {
         widgetMap = HashBiMap.create();
         ores = new HashMap<>();
         this.setYScrollBarWidth(5);
-        this.setYBarStyle(null, TerminalTheme.COLOR_F_1);
+        this.setYBarStyle(null,  new ColorRectTexture(new Color(148, 226, 193)));
         clear();
     }
 

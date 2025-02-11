@@ -17,7 +17,8 @@ import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
 import gregtech.api.pattern.MultiblockShapeInfo;
 import gregtech.api.pattern.PatternMatchContext;
-import gregtech.api.recipes.recipeproperties.IRecipePropertyStorage;
+import gregtech.api.recipes.logic.OCParams;
+import gregtech.api.recipes.properties.RecipePropertyStorage;
 import gregtech.client.renderer.ICubeRenderer;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.client.utils.TooltipHelper;
@@ -158,14 +159,12 @@ public class MetaTileEntityLargeAirCollector extends GCYMRecipeMapMultiblockCont
 
 
         @Override
-        protected void modifyOverclockPre(int @NotNull [] values, @NotNull IRecipePropertyStorage storage) {
-            super.modifyOverclockPre(values, storage);
+        protected void modifyOverclockPre(@NotNull OCParams ocParams, @NotNull RecipePropertyStorage storage) {
+            super.modifyOverclockPre(ocParams, storage);
 
-            int duration = (int) Math.max(1, values[1] / (largeAirCollector.filterTier + 1.0));
-            int EUt = (int) (values[0] / (largeAirCollector.filterTier + 1.0));
+            ocParams.setDuration((int) Math.max(1, ocParams.duration() / (largeAirCollector.filterTier + 1.0)));
+            ocParams.setEut((long) (ocParams.eut() / (largeAirCollector.filterTier + 1.0)));
 
-            values[0] = EUt;
-            values[1] = duration;
         }
     }
 }
