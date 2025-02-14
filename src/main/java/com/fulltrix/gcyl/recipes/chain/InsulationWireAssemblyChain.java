@@ -102,7 +102,7 @@ public class InsulationWireAssemblyChain {
                 .input(dust, SodiumAzide, 8)
                 .input(dust, DitertbutylDicarbonate, 33)
                 .output(dust, Sodium, 2)
-                .output(dust, Potash, 6)
+                .output(dust, Potash, 3)
                 .fluidOutputs(TertButylAzidoformate.getFluid(2000))
                 .buildAndRegister();
 
