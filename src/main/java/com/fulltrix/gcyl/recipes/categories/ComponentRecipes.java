@@ -148,7 +148,7 @@ public class ComponentRecipes {
 
         for(int i = 9; i < 15; i++) {
             if (i == 14) {
-                getAssLineResearchBuilder(i, 600, getEmitterByTier(i - 1).getStackForm(), false, false, VA[MAX])
+                getAssLineResearchBuilder(i, 600, getEmitterByTier(i - 1).getStackForm(), false, false, V[MAX])
                         .outputs(getEmitterByTier(i).getStackForm())
                         .input(frameGt, getMainComponentMaterialByTier(i))
                         .inputs(getMotorByTier(i).getStackForm())
@@ -408,7 +408,7 @@ public class ComponentRecipes {
 
         for(int i = 9; i < 15; i++) {
             if (i == 14) {
-                getAssLineResearchBuilder(i, 600, getSensorByTier(i - 1).getStackForm(), false, false, VA[MAX])
+                getAssLineResearchBuilder(i, 600, getSensorByTier(i - 1).getStackForm(), false, false, V[MAX])
                         .outputs(getSensorByTier(i).getStackForm())
                         .input(frameGt, getMainComponentMaterialByTier(i))
                         .inputs(getMotorByTier(i).getStackForm())
@@ -731,7 +731,7 @@ public class ComponentRecipes {
         for(int i = 9; i < 15; i++) {
             if (i == 14) {
                 //TODO change to use chaos later
-                getAssLineResearchBuilder(i, 600, getFieldGeneratorByTier(i - 1).getStackForm(), false, false, VA[MAX])
+                getAssLineResearchBuilder(i, 600, getFieldGeneratorByTier(i - 1).getStackForm(), false, false, V[MAX])
                         .outputs(getFieldGeneratorByTier(i).getStackForm())
                         .input(frameGt, CosmicNeutronium)
                         .inputs(COSMIC_MESH.getStackForm(6))
@@ -944,7 +944,7 @@ public class ComponentRecipes {
 
         for(int i = 9; i < 15; i++) {
             if (i == 14) {
-                getAssLineResearchBuilder(i, 600, getRobotArmByTier(i - 1).getStackForm(), false, false, VA[MAX])
+                getAssLineResearchBuilder(i, 600, getRobotArmByTier(i - 1).getStackForm(), false, false, V[MAX])
                         .outputs(getRobotArmByTier(i).getStackForm())
                         .input(stickLong, getMainComponentMaterialByTier(i), 4)
                         .input(gear, getMainComponentMaterialByTier(i+1))
@@ -1132,7 +1132,7 @@ public class ComponentRecipes {
 
         for(int i = 9; i < 15; i++) {
             if(i == 14) {
-                getAssLineResearchBuilder(i, 600, getConveyorByTier(i - 1).getStackForm(), false, false, VA[MAX])
+                getAssLineResearchBuilder(i, 600, getConveyorByTier(i - 1).getStackForm(), false, false, V[MAX])
                         .output(getConveyorByTier(i))
                         .inputs(getMotorByTier(i).getStackForm(2))
                         .input(plate, getMainComponentMaterialByTier(i), 2)
@@ -1321,7 +1321,7 @@ public class ComponentRecipes {
 
         for(int i = 9; i < 15; i++) {
             if (i == 14) {
-                getAssLineResearchBuilder(i, 600, getPistonByTier(i - 1).getStackForm(), false, false, VA[MAX])
+                getAssLineResearchBuilder(i, 600, getPistonByTier(i - 1).getStackForm(), false, false, V[MAX])
                         .outputs(getPistonByTier(i).getStackForm())
                         .inputs(getMotorByTier(i).getStackForm())
                         .input(plate, getMainComponentMaterialByTier(i), 4)
@@ -1625,7 +1625,7 @@ public class ComponentRecipes {
                         .EUt(VA[GTValues.OpV]))
                 .buildAndRegister();
 
-        ASSEMBLY_LINE_RECIPES.recipeBuilder().duration(600).EUt((int) GTValues.V[GTValues.MAX])
+        ASSEMBLY_LINE_RECIPES.recipeBuilder().duration(600).EUt(GTValues.V[GTValues.MAX])
                 .outputs(ELECTRIC_MOTOR_MAX.getStackForm())
                 .input(stickLong, NaquadriaticTaranium, 64)
                 .input(stickLong, NaquadriaticTaranium, 64)
@@ -1647,7 +1647,7 @@ public class ComponentRecipes {
                         .researchStack(ELECTRIC_MOTOR_OpV.getStackForm())
                         .CWUt(4096)
                         .dataStack(TOOL_DATA_SUPRACAUSAL.getStackForm())
-                        .EUt((int) V[GTValues.MAX]))
+                        .EUt(V[GTValues.MAX]))
                 .buildAndRegister();
     }
 
@@ -1745,7 +1745,7 @@ public class ComponentRecipes {
 
         for(int i = 9; i < 15; i++) {
             if (i == 14) {
-                getAssLineResearchBuilder(i, 600, getPumpByTier(i - 1).getStackForm(), false, false, VA[MAX])
+                getAssLineResearchBuilder(i, 600, getPumpByTier(i - 1).getStackForm(), false, false, V[MAX])
                         .outputs(getPumpByTier(i).getStackForm())
                         .input(getMotorByTier(i))
                         .input(pipeLargeFluid, getFluidPipeMaterialByTier(i), 32)
