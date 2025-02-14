@@ -3677,20 +3677,6 @@ gcyl.machine.transformer.opv.8.name=Extended Mega Ultimate Voltage Transformer 8
 gcyl.machine.transformer.opv.12.name=Extended Mega Ultimate Voltage Transformer 12 Amps
 gcyl.machine.transformer.opv.16.name=Extended Mega Ultimate Voltage Transformer 16 Amps
 
-gcyl.machine.diode.lv.name=Low Voltage Diode
-gcyl.machine.diode.mv.name=Medium Voltage Diode
-gcyl.machine.diode.hv.name=High Voltage Diode
-gcyl.machine.diode.ev.name=Extreme Voltage Diode
-gcyl.machine.diode.iv.name=Insane Voltage Diode
-gcyl.machine.diode.luv.name=Ludicrous Voltage Diode
-gcyl.machine.diode.zpm.name=ZPM Voltage Diode
-gcyl.machine.diode.uv.name=Ultimate Voltage Diode
-gcyl.machine.diode.uhv.name=Ultimately High Voltage Diode
-gcyl.machine.diode.uev.name=Ultimately Extreme Voltage Diode
-gcyl.machine.diode.uiv.name=Ultimately Insane Voltage Diode
-gcyl.machine.diode.uxv.name=Mega Ultimate Voltage Diode
-gcyl.machine.diode.opv.name=Extended Mega Ultimate Voltage Diode
-
 gcyl.machine.energy_hatch.input.ulv.4.name=Energy Input Hatch 4 Amps (ULV)
 gcyl.machine.energy_hatch.input.ulv.16.name=Energy Input Hatch 16 Amps (ULV)
 gcyl.machine.energy_hatch.input.ulv.64.name=Energy Input Hatch 64 Amps (ULV)
@@ -5312,3 +5298,14 @@ virtual_ores.name=Virtual Ores
 behavior.tricorder.virtual_ore.amount_unknown=Ore In Layer %s: %s%%
 
 gcyl.material.irirutan=Irirutan
+
+gcyl.machine.diode.high.iv.name=Insane Voltage Hi-Amp Diode
+gcyl.machine.diode.high.luv.name=Ludicrous Voltage Hi-Amp Diode
+gcyl.machine.diode.high.zpm.name=Zero Point Module Hi-Amp Diode
+gcyl.machine.diode.high.uv.name=Ultimate Voltage Hi-Amp Diode
+gcyl.machine.diode.high.uhv.name=Ultra High Voltage Hi-Amp Diode
+gcyl.machine.diode.high.uev.name=Ultra Excessive Voltage Hi-Amp Diode
+gcyl.machine.diode.high.uiv.name=Ultra Immense Voltage Hi-Amp Diode
+gcyl.machine.diode.high.uxv.name=Ultra Extreme Voltage Hi-Amp Diode
+gcyl.machine.diode.high.opv.name=Overpowered Voltage Hi-Amp Diode
+gcyl.machine.diode.high.max.name=Maximum Voltage Hi-Amp Diode

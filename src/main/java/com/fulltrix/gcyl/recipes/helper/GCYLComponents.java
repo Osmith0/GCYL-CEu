@@ -203,7 +203,7 @@ public class GCYLComponents {
                 {4, new UnificationEntry(plate, Titanium)},
                 {5, new UnificationEntry(plate, TungstenSteel)},
                 {6, new UnificationEntry(plate, RhodiumPlatedPalladium)},
-                {7, new UnificationEntry(plate, HSSS)},
+                {7, new UnificationEntry(plate, Duranium)},
                 {8, new UnificationEntry(plate, Tritanium)},
                 {9, new UnificationEntry(plate, Seaborgium)},
                 {10, new UnificationEntry(plate, Bohrium)},

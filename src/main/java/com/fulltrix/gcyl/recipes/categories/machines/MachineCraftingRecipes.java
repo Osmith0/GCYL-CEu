@@ -16,6 +16,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import org.apache.commons.lang3.ArrayUtils;
 
+import static com.fulltrix.gcyl.machines.GCYLTileEntities.HIGH_DIODES;
 import static com.fulltrix.gcyl.materials.GCYLMaterials.*;
 import static com.fulltrix.gcyl.item.GCYLCoreItems.TOOL_DATA_MODULE_CLUSTER;
 import static com.fulltrix.gcyl.item.GCYLCoreItems.UVA_HALIDE_LAMP;
@@ -53,6 +54,17 @@ public class MachineCraftingRecipes {
         for (int i = 2; i < GTValues.MAX + 1; i++) {
             registerMachineRecipe(ArrayUtils.subarray(MetaTileEntities.DIODES, i, i+1), "CDC", "DHD",
                     "PDP", 'H', CraftingComponent.HULL, 'D', GCYLUtility.getDiodeByTier(i), 'P', PLATE, 'C', CABLE_QUAD);
+        }
+
+        for (int i = GTValues.IV; i < GTValues.MAX; i++) {
+            ASSEMBLER_RECIPES.recipeBuilder().duration(200).EUt(VA[i])
+                    .input(MetaTileEntities.DIODES[i])
+                    .input(GCYLUtility.getDiodeByTier(i), 16)
+                    .input(cableGtHex, GCYLUtility.getCableByTier(i), 2)
+                    .input(plate, GCYLUtility.getMaterialByTier(i), 8)
+                    .fluidInputs(GCYLUtility.getPolymerByTier(i).getFluid(L * 4))
+                    .output(HIGH_DIODES[i - GTValues.IV])
+                    .buildAndRegister();
         }
     }
 

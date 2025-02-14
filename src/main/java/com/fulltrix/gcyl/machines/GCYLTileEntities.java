@@ -29,10 +29,12 @@ import gregtech.api.metatileentity.SimpleMachineMetaTileEntity;
 import gregtech.api.util.GTUtility;
 import gregtech.client.renderer.texture.Textures;
 import gregtech.common.metatileentities.MetaTileEntities;
+import gregtech.common.metatileentities.electric.MetaTileEntityDiode;
 
 import static com.fulltrix.gcyl.api.GCYLUtility.gcylId;
 import static com.fulltrix.gcyl.api.recipes.GCYLRecipeMaps.*;
 import static com.google.common.base.Ascii.toLowerCase;
+import static gregtech.api.util.GTUtility.gregtechId;
 import static gregtech.common.metatileentities.MetaTileEntities.registerMetaTileEntity;
 
 public class GCYLTileEntities {
@@ -97,6 +99,8 @@ public class GCYLTileEntities {
 
     public static MetaTileEntityDrillHolder DRILL_HOLDER;
     public static MetaTileEntityPrimitiveVirtual PRIMITIVE_VIRTUAL_MINER;
+
+    public static MetaTileEntityDiode[] HIGH_DIODES = new MetaTileEntityDiode[GTValues.V.length - GTValues.IV];
 
 
     public static int id = 0;
@@ -245,5 +249,11 @@ public class GCYLTileEntities {
 
         DRILL_HOLDER = registerMetaTileEntity(++id, new MetaTileEntityDrillHolder(gcylId("drill_holder")));
         PRIMITIVE_VIRTUAL_MINER = registerMetaTileEntity(++id, new MetaTileEntityPrimitiveVirtual(gcylId("primitive_virtual_miner")));
+
+        for (int i = 0; i < HIGH_DIODES.length; i++) {
+            String diodeId = "diode.high." + GTValues.VN[i + GTValues.IV].toLowerCase();
+            MetaTileEntityDiode diode = new MetaTileEntityDiode(gcylId(diodeId), i + GTValues.IV, 64);
+            HIGH_DIODES[i] = registerMetaTileEntity(++id, diode);
+        }
     }
 }
