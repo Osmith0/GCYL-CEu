@@ -175,6 +175,8 @@ public class GCYLUtility {
             case (6) -> Palladium;
             case (7) -> Platinum;
             case (8) -> Osmiridium;
+            case (9) -> Osmium; //TODO UHV sensor emitter foil materials
+            case (10) -> Trinium; //TODO UEV sensor emitter foil materials
             case(11) -> TriniumTitanium;
             case(12) -> ProtoAdamantium;
             default -> getMainComponentMaterialByTier(tier);
