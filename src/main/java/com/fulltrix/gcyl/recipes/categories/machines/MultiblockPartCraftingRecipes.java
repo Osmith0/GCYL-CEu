@@ -354,9 +354,9 @@ public class MultiblockPartCraftingRecipes {
                     .fluidInputs(Indalloy140.getFluid(i == 0 ? L * 2: L * i * 4))
                     .buildAndRegister();
 
-            if(i > 3 && i < 10) { //TODO change to higher value when high tier 4A hatches are implemented
+            if(i > 3 && i < 14) {
 
-                getAssLineResearchBuilder(i, 400, i == 4 ? ENERGY_INPUT_HATCH_4A[i - 4].getStackForm() : WIRELESS_ENERGY_HATCH_INPUT_4A[i - 4].getStackForm(), true, true)
+                getAssLineResearchBuilder(i, 400, i == 4 ? ENERGY_INPUT_HATCH_4A[i - 4].getStackForm() : WIRELESS_ENERGY_HATCH_INPUT_4A[i - 5].getStackForm(), true, true)
                         .outputs(WIRELESS_ENERGY_HATCH_INPUT_4A[i - 4].getStackForm())
                         .inputs(ENERGY_INPUT_HATCH_4A[i - 4].getStackForm())
                         .inputs(getPowerICStack(i))
@@ -372,7 +372,7 @@ public class MultiblockPartCraftingRecipes {
 
             }
 
-            if(i > 4 && i < 10) {
+            if(i > 4 && i < 14) {
                 getAssLineResearchBuilder(i, 400, i == 5 ? ENERGY_INPUT_HATCH_16A[i - 5].getStackForm() : WIRELESS_ENERGY_HATCH_INPUT_16A[i - 5].getStackForm(), true, true)
                         .outputs(WIRELESS_ENERGY_HATCH_INPUT_16A[i - 5].getStackForm())
                         .inputs(ENERGY_INPUT_HATCH_16A[i - 5].getStackForm())
