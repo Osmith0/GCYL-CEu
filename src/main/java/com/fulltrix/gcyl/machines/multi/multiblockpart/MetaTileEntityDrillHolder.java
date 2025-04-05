@@ -25,6 +25,7 @@ import gregtech.api.capability.impl.NotifiableItemStackHandler;
 import gregtech.api.items.itemhandlers.GTItemStackHandler;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
+import gregtech.api.metatileentity.multiblock.AbilityInstances;
 import gregtech.api.metatileentity.multiblock.IMultiblockAbilityPart;
 import gregtech.api.metatileentity.multiblock.MultiblockAbility;
 import gregtech.api.mui.GTGuiTextures;
@@ -98,6 +99,11 @@ public class MetaTileEntityDrillHolder extends MetaTileEntityMultiblockNotifiabl
     }
 
     @Override
+    public void registerAbilities(@NotNull AbilityInstances abilityInstances) {
+        abilityInstances.add(this.importItems);
+    }
+
+    @Override
     public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline) {
         super.renderMetaTileEntity(renderState, translation, pipeline);
         if (shouldRenderOverlay()) {
@@ -130,11 +136,6 @@ public class MetaTileEntityDrillHolder extends MetaTileEntityMultiblockNotifiabl
             return GregtechTileCapabilities.CAPABILITY_CONTROLLABLE.cast(this);
         }
         return super.getCapability(capability, side);
-    }
-
-    @Override
-    public void registerAbilities(List<IItemHandlerModifiable> abilityList) {
-        abilityList.add( this.importItems);
     }
 
     @Override

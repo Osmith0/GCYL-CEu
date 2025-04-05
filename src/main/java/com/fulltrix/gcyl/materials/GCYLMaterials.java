@@ -13,6 +13,7 @@ import gregtech.api.unification.material.Material;
 import gregtech.api.unification.material.info.MaterialFlag;
 import gregtech.api.unification.material.info.MaterialIconSet;
 import gregtech.api.unification.material.properties.BlastProperty;
+import gregtech.api.unification.material.properties.MaterialToolProperty;
 import gregtech.api.unification.material.properties.PropertyKey;
 import gregtech.api.unification.material.properties.ToolProperty;
 import net.minecraft.server.MinecraftServer;
@@ -3442,7 +3443,7 @@ public class GCYLMaterials {
 
         Enderium = new Material.Builder(++id, gcylId("enderium"))
                 .ingot(3).fluid()
-                .toolStats(ToolProperty.Builder.of(8.0F, 3.0F, 1280, 3).build())
+                .toolStats(MaterialToolProperty.Builder.of(8.0F, 3.0F, 1280, 3).build())
                 .color(0x23524a)
                 .iconSet(METALLIC)
                 .flags(EXT2_METAL, DISABLE_DECOMPOSITION, DISABLE_REPLICATION)
@@ -10629,7 +10630,7 @@ public class GCYLMaterials {
 
         Draconium = new Material.Builder(++id, gcylId("draconium"))
                 .ingot().liquid()
-                .toolStats(new ToolProperty(10f, 30f,12800,6))
+                .toolStats(MaterialToolProperty.Builder.of(10f, 30f,12800,6).build())
                 .color(0x573d85)
                 .iconSet(DULL)
                 .flags(DISABLE_REPLICATION, GENERATE_PLATE, GENERATE_DENSE, GENERATE_ROD, GENERATE_FRAME, GENERATE_BOLT_SCREW)
@@ -10639,7 +10640,7 @@ public class GCYLMaterials {
 
         AwakenDraconium = new Material.Builder(++id, gcylId("awaken_draconium"))
                 .ingot().liquid().plasma()
-                .toolStats(new ToolProperty(10f,40f,6,128000))
+                .toolStats(MaterialToolProperty.Builder.of(10f,40f,6,128000).build())
                 .color(0xff571a)
                 .iconSet(SHINY)
                 .flags(DISABLE_REPLICATION, DISABLE_DECONSTRUCTION, GENERATE_PLATE, GENERATE_DENSE, GENERATE_ROD, GENERATE_FRAME, GENERATE_BOLT_SCREW)
@@ -10650,7 +10651,7 @@ public class GCYLMaterials {
         Chaos = new Material.Builder(++id, gcylId("chaos"))
                 .ingot().liquid().plasma()
                 .color(0x696969)
-                .toolStats(new ToolProperty(10f,50f,1280000,7))
+                .toolStats(MaterialToolProperty.Builder.of(10f,50f,1280000,7).build())
                 .iconSet(DULL)
                 .flags(DISABLE_REPLICATION, DISABLE_DECONSTRUCTION, GENERATE_PLATE,  GENERATE_DENSE, GENERATE_ROD, GENERATE_FRAME, GENERATE_FINE_WIRE, GENERATE_BOLT_SCREW)
                 .blast(25000)
@@ -10660,7 +10661,7 @@ public class GCYLMaterials {
         ChaosAlloy = new Material.Builder(++id, gcylId("chaosalloy"))
                 .ingot().liquid().plasma()
                 .color(0x696969)
-                .toolStats(new ToolProperty(10f,60f,2560000,8))
+                .toolStats(MaterialToolProperty.Builder.of(10f,60f,2560000,8).build())
                 .iconSet(SHINY)
                 .flags(DISABLE_REPLICATION, DISABLE_DECONSTRUCTION, GENERATE_PLATE,  GENERATE_DENSE, GENERATE_FINE_WIRE, GENERATE_BOLT_SCREW)
                 .blast(50000)

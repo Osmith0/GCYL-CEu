@@ -4,7 +4,7 @@ import gregtech.api.GregTechAPI;
 import gregtech.api.unification.material.Material;
 import gregtech.api.util.FileUtility;
 import gregtech.api.util.GTLog;
-import gregtech.api.util.XSTR;
+import gregtech.api.util.random.XoShiRo256PlusPlusRandom;
 import gregtech.api.worldgen.bedrockFluids.ChunkPosDimension;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
@@ -71,7 +71,7 @@ public class VirtualOreVeinHandler {
 
             for(float i : definition.getMultipliers()) {
 
-                Random random = new XSTR(31L * 31 * chunkX + chunkZ * 31L + Long.hashCode(world.getSeed()));
+                Random random = new XoShiRo256PlusPlusRandom(31L * 31 * chunkX + chunkZ * 31L + Long.hashCode(world.getSeed()));
 
                 int maximumYield = 0;
                 if (definition != null) {
