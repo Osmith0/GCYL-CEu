@@ -4698,7 +4698,7 @@ public class GCYLMaterials {
                 .flags(DISABLE_REPLICATION)
                 .iconSet(SHINY)
                 .build()
-                .setFormula("FrCsCf2Br6", true);
+                .setFormula("FrCsCd2Br6", true);
 
         SodiumIodide = new Material.Builder(++id, gcylId("sodium_iodide"))
                 .dust()
@@ -9221,13 +9221,8 @@ public class GCYLMaterials {
                 .build()
                 .setFormula("C6F6",true);
 
-        Fluorocarborane = new Material.Builder(++id, gcylId("fluorocarborane"))
-                .dust()
-                .color(0x20EB7A)
-                .flags(DISABLE_REPLICATION)
-                .iconSet(SHINY)
-                .build()
-                .setFormula("HCHB11F11",true);
+        //TODO FILL WITH MATERIAL
+        ++id;
 
         ActiniumRadiumHydroxideSolution = new Material.Builder(++id, gcylId("actinium_radium_hydroxide_solution"))
                 .liquid()
